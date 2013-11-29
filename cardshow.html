@@ -1,0 +1,22 @@
+<div class="container">
+    <div ng-include="'toolbar.html'"></div>
+    <div class='box'>
+        <alert  ng-repeat="post in results.error" type="post.type" >{{post.msg}}</alert>
+        <div ng-repeat="post in posts.cards">
+
+            <div class='box'>
+
+                <!--<button ng-show="sessionData.Session.createcard==1" class="btn btn-small btn-danger pull-right" ng-click="deleteMe(post)"><i class="icon-trash icon-white"></i></button>-->
+                <strong>{{post.name}}</strong><br>{{post.description}}
+                <div style='text-align:right' ng-show="true">
+                    <br><br>
+                    <rating value="post.votes" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
+                            on-leave="overStar = null"></rating>
+                </div>
+                <br>
+                <button class="btn btn-small btn-danger" ng-click="unVoteMe(post)"><i class="icon-trash icon-white"></i> Remove Vote</button>
+                <button class="btn btn-small pull-right btn-info" ng-click="voteMe(post)"> <i class="icon-star icon-white"></i> Cast Vote</button>
+            </div>
+        </div>
+    </div>
+</div>

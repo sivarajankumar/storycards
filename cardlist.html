@@ -1,0 +1,28 @@
+<div class="container">
+    <div ng-include="'toolbar.html'"></div>
+    <alert  ng-repeat="post in posts.error" type="post.type" >{{post.msg}}</alert>
+    <input type="text" placeholder="Filter" ng-model="name" />
+    <table id="target_table_id" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th >
+            <th>Votes</th>
+            <th>Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="post in posts.cards | filter:name | orderBy:'-votes'" >
+            <td>{{post.name | uppercase}}</td>
+            <td>{{post.description}}</td>
+            <td>{{post.votes}}</td>
+            <td>{{post.id}}</td>
+            <td>{{post.owner}}</td>
+            <td ng-show="sessionData.Session.createcard==1"><a href="#/editcard/{{post.name}}/{{post.description}}/{{post.id}}"> <i class="icon-edit"></i></a></td>
+            <td ng-show="sessionData.Session.createcard==1"><a href="#/cardlist" ng-click="deleteMe(post)"><i class="icon-trash"></i></a></td>
+            <td>{{post.error}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
