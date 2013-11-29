@@ -1,0 +1,10 @@
+<div class="container">
+    <div ng-include="'toolbar.html'"></div>
+    <form name="card" class="box">
+        <h2 class="heading">Edit Card {{model.id}}</h2>
+        <input type="text" id="name" name="name" class="input-block-level" placeholder="Feature" ng-model="model.name">
+        <textarea class="input-block-level" rows="10" id=description type="text" placeholder="Description"
+                  name="description" ng-model="model.description"></textarea>
+        <input type="submit" value="edit" class="btn btn-primary" ng-click="clickMe(model)"/>
+    </form>
+</div>
