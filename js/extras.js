@@ -153,6 +153,12 @@ function PostsCtrlAjax($scope, $http){
             //TODO: add a message about delete.
         })
     };
+    $scope.markMe = function(post){
+        var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&mark=true';
+        $http({method: 'POST', url: url }).success(function(data) {
+            $scope.results = data; //
+        })
+    };
 }
 myApp.controller('PostsCtrlAjax',PostsCtrlAjax);
 

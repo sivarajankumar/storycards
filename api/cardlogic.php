@@ -38,6 +38,13 @@ if (checkToken($_REQUEST['username'], $_REQUEST['token'])) {
         } else {
             echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"You do not have access to this feature.\"}]}";
         }
+    } else if ($_REQUEST['mark']) {
+        $feature = "voteforcard";
+        if (CheckRights($_REQUEST['username'], $feature)) {
+            markCard($_REQUEST['thiscard'], $_REQUEST['username']);
+        } else {
+            echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"You do not have access to this feature.\"}]}";
+        }
 
     } else if ($_REQUEST['delete']) {
         $feature = "createcard";
@@ -329,6 +336,23 @@ function editCard($id, $name, $description)
         $stmt->bindValue("description", $description, PDO::PARAM_STR);
         $stmt->execute();
         echo "{\"error\": [{ \"type\": \"success\", \"msg\":\"Your changes have been saved.\"}]}";
+    } catch (PDOException $e) {
+        echo json_encode($e->getMessage());
+    }
+}
+
+
+function markCard($id,$username)
+{
+    try {
+        // add a check for another mark on this card.
+        $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO userWatch (username, cardid) VALUES(:username,:id)";
+        $stmt = $con->prepare($sql);
+        $stmt->bindValue("username", $username, PDO::PARAM_STR);
+        $stmt->bindValue("id", $id, PDO::PARAM_INT);
+        $stmt->execute();
     } catch (PDOException $e) {
         echo json_encode($e->getMessage());
     }
