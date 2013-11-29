@@ -106,3 +106,14 @@ function createTableUserVotes($con)
     $con->query($sql);
     echo mysqli_connect_error();
 }
+
+function createTableUserWatch($con)
+{
+    $sql = "CREATE TABLE userwatch (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),
+								  username VARCHAR(255) ,
+								  cardid VARCHAR(255),
+								  datecreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE = INNODB ";
+    $con->query($sql);
+    echo mysqli_connect_error();
+}
+
