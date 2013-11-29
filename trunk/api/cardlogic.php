@@ -24,7 +24,7 @@ if (checkToken($_REQUEST['username'], $_REQUEST['token'])) {
     } else if ($_REQUEST['loadmycard']) {
         loadMyCards($_REQUEST['loadmycard']);
 
-    } else if ($_REQUEST['votes']) {
+    } else if ($_REQUEST['vote']) {
         $feature = "voteforcard";
         if (CheckRights($_REQUEST['username'], $feature)) {
             voteForCard($_REQUEST['thiscard'], $_REQUEST['username']);
@@ -147,7 +147,7 @@ function voteForCard($id, $username)
 
 function unVoteForCard($id, $username)
 {
-    if (checkUnVotes($username)) {
+    if (checkUnVotes($id,$username)) {
         try {
             $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -162,7 +162,7 @@ function unVoteForCard($id, $username)
             $stmt->bindValue("id", $id, PDO::PARAM_STR);
             $stmt->bindValue("votes", $votes, PDO::PARAM_STR);
             $stmt->execute();
-            removeUserVote($id);
+            removeUserVote($id,$username);
             echo "{\"votes\":$votes}";
         } catch (PDOException $e) {
             echo json_encode($e->getMessage());
@@ -197,14 +197,15 @@ function checkVotes($username)
     }
 }
 
-function checkUnVotes($username)
+function checkUnVotes($id,$username)
 {
     try {
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT COUNT(id) AS totalvotes FROM uservotes WHERE username =:username";
+        $sql = "SELECT COUNT(id) AS totalvotes FROM uservotes WHERE username =:username AND cardid = :id";
         $stmt = $con->prepare($sql);
-        $stmt->bindValue("username", $username, PDO::PARAM_INT);
+        $stmt->bindValue("username", $username, PDO::PARAM_STR);
+        $stmt->bindValue("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         $valid = $stmt->fetchColumn();
         if ($valid > 0 ) {
@@ -234,14 +235,15 @@ function addUserVote($id,$username)
     }
 }
 
-function removeUserVote($cardid)
+function removeUserVote($id,$username)
 {
     try {
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM uservotes where cardid = :cardid LIMIT 1";
+        $sql = "DELETE FROM uservotes where username = :username AND cardid =:id LIMIT 1";
         $stmt = $con->prepare($sql);
-        $stmt->bindValue("cardid", $cardid, PDO::PARAM_INT);
+        $stmt->bindValue("username", $username, PDO::PARAM_STR);
+        $stmt->bindValue("id", $id, PDO::PARAM_INT);
         $stmt->execute();
     } catch (PDOException $e) {
         echo json_encode($e->getMessage());

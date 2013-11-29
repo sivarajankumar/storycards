@@ -8,7 +8,7 @@
             <th>Name</th>
             <th>Description</th >
             <th>Votes</th>
-            <th>Number</th>
+            <th>Owner</th>
         </tr>
         </thead>
         <tbody>
@@ -16,10 +16,10 @@
             <td>{{post.name | uppercase}}</td>
             <td>{{post.description}}</td>
             <td>{{post.votes}}</td>
-            <td>{{post.id}}</td>
             <td>{{post.owner}}</td>
             <td ng-show="sessionData.Session.createcard==1"><a href="#/editcard/{{post.name}}/{{post.description}}/{{post.id}}"> <i class="icon-edit"></i></a></td>
             <td ng-show="sessionData.Session.createcard==1"><a href="#/cardlist" ng-click="deleteMe(post)"><i class="icon-trash"></i></a></td>
+            <td ng-show="sessionData.Session.voteforcard==1"><a href="#/cardlist" ng-click="markMe(post)"><i class="icon-bookmark"></i></a></td>
             <td>{{post.error}}</td>
         </tr>
         </tbody>

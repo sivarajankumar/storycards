@@ -179,7 +179,7 @@ function MyCardCtrl($scope, $http){
             $scope.ratingStates = [{stateOn: 'icon-star', stateOff: 'icon-star-empty'},{stateOff: 'icon-off'}];
     });
     $scope.voteMe = function(post){
-        var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&votes=true';
+        var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&vote=true';
         $http({method: 'POST', url: url }).success(function(data) {
             $scope.results = data; //
             post.votes=Number(data.votes);
