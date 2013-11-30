@@ -70,7 +70,7 @@ function createTableUserSession($con)
 function createTableCard($con)
 {
     $card = "CREATE TABLE card (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),
-										name VARCHAR(255),
+										name VARCHAR(255)UNIQUE,
 										description VARCHAR(255),
 										username VARCHAR(255),
 										statusId VARCHAR(255),

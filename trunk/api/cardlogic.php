@@ -277,7 +277,8 @@ function loadMyCards($loadmycard)
     try {
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM card WHERE owner = :loadmycard";
+//        $sql = "SELECT * FROM card WHERE owner = :loadmycard";
+        $sql = "SELECT card .* FROM card JOIN userwatch ON userwatch.cardid = card.id WHERE userwatch.username = :loadmycard";
         $stmt = $con->prepare($sql);
         $stmt->bindValue("loadmycard", $loadmycard, PDO::PARAM_STR);
         $stmt->execute();
