@@ -141,11 +141,13 @@ function voteForCard($id, $username)
             $stmt->bindValue("votes", $votes, PDO::PARAM_STR);
             $stmt->execute();
             addUserVote($id,$username);
+//            echo "{\"error\": [{ \"type\": \"alert\", \"votes\":\"$votes\"}]}";
             echo "{\"votes\":$votes}";
         } catch (PDOException $e) {
             echo json_encode($e->getMessage());
         }
     } else {
+        echo "{\"votes\":$votes}";
         echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"You are out of votes.\"}]}";
     }
 }
@@ -170,11 +172,13 @@ function unVoteForCard($id, $username)
             $stmt->bindValue("votes", $votes, PDO::PARAM_STR);
             $stmt->execute();
             removeUserVote($id,$username);
+//            echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"$votes\"}]}";
             echo "{\"votes\":$votes}";
         } catch (PDOException $e) {
             echo json_encode($e->getMessage());
         }
     } else {
+        echo "{\"votes\":$votes}";
         echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"You have removed all votes.\"}]}";
     }
 }
@@ -278,7 +282,7 @@ function loadMyCards($loadmycard)
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //        $sql = "SELECT * FROM card WHERE owner = :loadmycard";
-        $sql = "SELECT card .* FROM card JOIN userwatch ON userwatch.cardid = card.id WHERE userwatch.username = :loadmycard";
+        $sql = "SELECT DISTINCT card .* FROM card JOIN userwatch ON userwatch.cardid = card.id WHERE userwatch.username = :loadmycard";
         $stmt = $con->prepare($sql);
         $stmt->bindValue("loadmycard", $loadmycard, PDO::PARAM_STR);
         $stmt->execute();

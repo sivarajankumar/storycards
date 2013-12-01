@@ -187,7 +187,7 @@ function MyCardCtrl($scope, $http){
     $scope.voteMe = function(post){
         var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&vote=true';
         $http({method: 'POST', url: url }).success(function(data) {
-            $scope.results = data; //
+            $scope.voteresults = data; //
             post.votes=Number(data.votes);
         })
     };
@@ -200,7 +200,7 @@ function MyCardCtrl($scope, $http){
     $scope.unVoteMe = function(post){
         var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&unvote=true';
         $http({method: 'POST', url: url }).success(function(data) {
-            $scope.results = data; //
+            $scope.voteresults = data; //
             post.votes=Number(data.votes);
         })
     };

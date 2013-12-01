@@ -1,7 +1,7 @@
 <div class="container">
     <div ng-include="'toolbar.html'"></div>
     <div class='box'>
-        <alert  ng-repeat="post in results.error" type="post.type" >{{post.msg}}</alert>
+        <alert  ng-repeat="item in voteresults.error" type="item.type" >{{item.msg}}</alert>
         <div ng-repeat="post in posts.cards">
 
             <div class='box'>
