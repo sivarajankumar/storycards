@@ -51,15 +51,23 @@ myApp.config(function ($routeProvider){
 
 // Angular Controllers
 
-function navCtrl($scope){
-    $scope.sessionData = JSON.parse(localStorage.getItem('Object'));
+////////// Nav bar controller
+
+function navCtrl($scope,$http,$location){
+    $scope.sessionData = JSON.parse(sessionStorage.getItem('Object'));
+    $scope.clickMeOff = function(){
+        $http({method: 'POST', url: "api/userlogic.php?logout="+ UserString()+"&token="+TokenString()}).success(function(data) {
+            sessionStorage.clear();
+            $location.path("/login");
+        })
+    };
 }
-myApp.controller('indexCtrl',indexCtrl);
+myApp.controller('navCtrl',navCtrl);
 
 
 function LoginCtrlAjax($scope, $http, $location){
     $scope.clickMe = function(){
-        localStorage.clear();
+        sessionStorage.clear();
         $http({method: 'POST', url: 'api/userlogic.php?username=' + $scope.username +"&password="+ $scope.password }).success(function(data) {
             saveUserData(data);
             if(data.Session !=null){
@@ -85,20 +93,12 @@ myApp.controller('RegisterCtrlAjax',RegisterCtrlAjax);
 
 ////////// Log Off Controller
 
-function LogoffCtrlAjax($scope, $http, $location){
-    $scope.clickMeOff = function(){
-        $http({method: 'POST', url: "api/userlogic.php?logout="+ UserString()+"&token="+TokenString()}).success(function(data) {
-            localStorage.clear();
-            $location.path("/login");
-        })
-    };
-}
-myApp.controller('LogoffCtrlAjax',LogoffCtrlAjax);
+
 
 ////////// New Card Controller
 
 function NewCardCtrl($scope, $http){
-    $scope.owner=JSON.parse(localStorage.getItem('Object')).Session.username;
+    $scope.owner=JSON.parse(sessionStorage.getItem('Object')).Session.username;
 
     $http({method: 'POST', url: 'api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString()+'' }).success(function(data) {
         $scope.users = data;
@@ -140,7 +140,7 @@ myApp.controller('EditCardCtrl',EditCardCtrl);
 ////////// List Card Controller
 
 function PostsCtrlAjax($scope, $http){
-    $scope.sessionData = JSON.parse(localStorage.getItem('Object'));
+    $scope.sessionData = JSON.parse(sessionStorage.getItem('Object'));
     $http({method: 'POST', url: 'api/cardlogic.php?username=' + UserString() + '&token=' + TokenString() + ''}).success(function(data) {
         $scope.posts = data; // response data
     }).error(function(data) {
@@ -157,6 +157,7 @@ function PostsCtrlAjax($scope, $http){
         var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&mark=true';
         $http({method: 'POST', url: url }).success(function(data) {
             $scope.results = data; //
+            alert(post.name + " Has been added to your favorites");
         })
     };
 }
@@ -167,8 +168,6 @@ myApp.controller('PostsCtrlAjax',PostsCtrlAjax);
 function FeatureListCtrl($scope, $http){
     $http({method: 'POST', url: 'api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString()+'' }).success(function(data) {
         $scope.posts = data;
-
-
     })
 }
 myApp.controller('FeatureListCtrl',FeatureListCtrl);
@@ -176,7 +175,7 @@ myApp.controller('FeatureListCtrl',FeatureListCtrl);
 //////////My Card Controller
 
 function MyCardCtrl($scope, $http){
-    $scope.sessionData = JSON.parse(localStorage.getItem('Object'));
+    $scope.sessionData = JSON.parse(sessionStorage.getItem('Object'));
     var url = 'api/cardlogic.php?username=' + UserString() + '&token=' + TokenString() + '&loadmycard='+ UserString();
     $http({method: 'POST', url:url }).success(function(data) {
             $scope.posts = data; // response data
@@ -212,21 +211,21 @@ myApp.controller('MyCardCtrl',MyCardCtrl);
 function saveUserData(data) {
     if (typeof(Storage) !== "undefined") {
         var Object = data;
-        localStorage.setItem('Object', JSON.stringify(Object));
+        sessionStorage.setItem('Object', JSON.stringify(Object));
     } else {
         alert("Your browser does not support web storage.");
     }
 }
 
 function UserString() {
-    var data = JSON.parse(localStorage.getItem('Object'));
+    var data = JSON.parse(sessionStorage.getItem('Object'));
     var userSession = data.Session;
     var username = userSession.username;
     return username;
 }
 
 function TokenString() {
-    var data = JSON.parse(localStorage.getItem('Object'));
+    var data = JSON.parse(sessionStorage.getItem('Object'));
     var userSession = data.Session;
     var token = userSession.token;
     return token;
