@@ -18,6 +18,7 @@ createTableCardStatus($con);
 createTableUserSession($con);
 createTableFeatures($con);
 createTableUserVotes($con);
+createTableUserWatch($con);
 $con->close();
 
 function createTableCardStatus($con)

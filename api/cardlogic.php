@@ -282,7 +282,7 @@ function loadMyCards($loadmycard)
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //        $sql = "SELECT * FROM card WHERE owner = :loadmycard";
-        $sql = "SELECT DISTINCT card .* FROM card JOIN userwatch ON userwatch.cardid = card.id WHERE userwatch.username = :loadmycard";
+        $sql = "SELECT DISTINCT card .* FROM card LEFT JOIN userwatch ON userwatch.cardid = card.id WHERE userwatch.username = :loadmycard OR card.owner = :loadmycard";
         $stmt = $con->prepare($sql);
         $stmt->bindValue("loadmycard", $loadmycard, PDO::PARAM_STR);
         $stmt->execute();
@@ -353,7 +353,7 @@ function markCard($id,$username)
         // add a check for another mark on this card.
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO userWatch (username, cardid) VALUES(:username,:id)";
+        $sql = "INSERT INTO userwatch (username, cardid) VALUES(:username,:id)";
         $stmt = $con->prepare($sql);
         $stmt->bindValue("username", $username, PDO::PARAM_STR);
         $stmt->bindValue("id", $id, PDO::PARAM_INT);
