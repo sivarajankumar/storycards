@@ -45,6 +45,13 @@ if (checkToken($_REQUEST['username'], $_REQUEST['token'])) {
         } else {
             echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"You do not have access to this feature.\"}]}";
         }
+    } else if ($_REQUEST['unmark']) {
+        $feature = "voteforcard";
+        if (CheckRights($_REQUEST['username'], $feature)) {
+            unMarkCard($_REQUEST['thiscard'], $_REQUEST['username']);
+        } else {
+            echo "{\"error\": [{ \"type\": \"alert\", \"msg\":\"You do not have access to this feature.\"}]}";
+        }
 
     } else if ($_REQUEST['delete']) {
         $feature = "createcard";
@@ -105,7 +112,9 @@ function createCard($name, $description, $username, $statusId, $owner)
         $card = loadCardCreated($con);
         echo "{\"cards\":" . json_encode($card) . "}";
     } catch (PDOException $e) {
-        echo json_encode($e->getMessage());
+//        echo "{\"cards\":{\"error\":\"" .$e->getMessage() . "\"}}";
+        echo "{\"cards\":{\"error\":\"Duplicate Card\"}}";
+//        echo json_encode($e->getMessage());
     }
 }
 
@@ -263,6 +272,8 @@ function removeUserVote($id,$username)
 
 function loadCards()
 {
+    $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $query = "SELECT * FROM card WHERE id > 0";
     $con = getConnection();
     $cards = array();
@@ -350,10 +361,24 @@ function editCard($id, $name, $description)
 function markCard($id,$username)
 {
     try {
-        // add a check for another mark on this card.
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO userwatch (username, cardid) VALUES(:username,:id)";
+        $stmt = $con->prepare($sql);
+        $stmt->bindValue("username", $username, PDO::PARAM_STR);
+        $stmt->bindValue("id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo json_encode($e->getMessage());
+    }
+}
+
+function unMarkCard($id,$username)
+{
+    try {
+        $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM userwatch WHERE username=:username AND cardid=:id";
         $stmt = $con->prepare($sql);
         $stmt->bindValue("username", $username, PDO::PARAM_STR);
         $stmt->bindValue("id", $id, PDO::PARAM_INT);

@@ -1,21 +1,26 @@
 <div class="container">
-    <div ng-include="'toolbar.html'"></div>
-    <div class='box'>
-        <alert  ng-repeat="item in voteresults.error" type="item.type" >{{item.msg}}</alert>
-        <div ng-repeat="post in posts.cards">
-
-            <div class='box'>
-
-                <!--<button ng-show="sessionData.Session.createcard==1" class="btn btn-small btn-danger pull-right" ng-click="deleteMe(post)"><i class="icon-trash icon-white"></i></button>-->
-                <strong>{{post.name}}</strong><br>{{post.description}}
-                <div style='text-align:right' ng-show="true">
-                    <br><br>
-                    <rating value="post.votes" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
-                            on-leave="overStar = null"></rating>
+    <div class="noprint" ng-include="'toolbar.html'"></div>
+    <div class='panel panel-default'>
+        <div class='well-large'>
+            <alert ng-repeat="item in voteresults.error" type="item.type">{{item.msg}}</alert>
+            <div ng-repeat="post in posts.cards">
+                <div class="pageBreak">
+                    <div class="hero-unit">
+                        <!--<button ng-show="sessionData.Session.createcard==1" class="btn btn-small btn-danger pull-right" ng-click="deleteMe(post)"><i class="icon-trash icon-white"></i></button>-->
+                        <div><strong>{{post.name}}</strong>
+                            <div class='well well-small pull-right noprint'>
+                                Total Votes: {{post.votes}}<br>
+                                <rating value="post.votes" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"  on-leave="overStar = null"></rating><br>
+                                <button class="btn btn-small btn-info" ng-click="voteMe(post)"><i class="icon-star icon-white"></i> Cast Vote</button>
+                                <button class="btn btn-small btn-danger" ng-click="unVoteMe(post)"><i class="icon-trash icon-white"></i> Remove Vote </button>
+                            </div>
+                        </div>
+                        {{post.description}}
+                        <div class="noprint">
+                            <button class="btn btn-small btn-warning" ng-click="unMarkMe(post)"><i class="icon-bookmark icon-white"></i> Delete Bookmark </button>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <button class="btn btn-small btn-danger" ng-click="unVoteMe(post)"><i class="icon-trash icon-white"></i> Remove Vote</button>
-                <button class="btn btn-small pull-right btn-info" ng-click="voteMe(post)"> <i class="icon-star icon-white"></i> Cast Vote</button>
             </div>
         </div>
     </div>

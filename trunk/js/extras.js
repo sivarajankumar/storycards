@@ -147,11 +147,16 @@ function PostsCtrlAjax($scope, $http){
             $scope.posts = data;
         });
     $scope.deleteMe = function(post){
-        var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&delete='+ post.id + '';
-        $http({method: 'POST', url: url }).success(function(data) {
-            location.reload();
-            //TODO: add a message about delete.
-        })
+
+        var r=confirm("Are you sure you want to delete this card.");
+        if(r==true){
+            var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&delete='+ post.id + '';
+            $http({method: 'POST', url: url }).success(function(data) {
+                location.reload();
+                //TODO: add a message about delete.
+            })
+        }else{
+        }
     };
     $scope.markMe = function(post){
         var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&mark=true';
@@ -179,7 +184,7 @@ function MyCardCtrl($scope, $http){
     var url = 'api/cardlogic.php?username=' + UserString() + '&token=' + TokenString() + '&loadmycard='+ UserString();
     $http({method: 'POST', url:url }).success(function(data) {
             $scope.posts = data; // response data
-            $scope.max = 12;
+            $scope.max = 11;
             $scope.isReadonly = true;
             $scope.ratingStates = [{stateOn: 'icon-star', stateOff: 'icon-star-empty'},{stateOff: 'icon-off'}];
     });
@@ -201,6 +206,13 @@ function MyCardCtrl($scope, $http){
         $http({method: 'POST', url: url }).success(function(data) {
             $scope.voteresults = data; //
             post.votes=Number(data.votes);
+        })
+    };
+
+    $scope.unMarkMe = function(post){
+        var url ='api/cardlogic.php?name=' + "&username=" + UserString() + '&token=' + TokenString() + '&thiscard='+ post.id + '&unmark=true';
+        $http({method: 'POST', url: url }).success(function() {
+            location.reload();
         })
     };
 }

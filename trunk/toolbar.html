@@ -8,20 +8,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="brand" href="#">Blue Card</a>
+
                 <div class="nav-collapse collapse">
                 </div>
                 <ul class="nav pull-right">
                     <li ng-hide="sessionData.Session.username" class="active"><a href="#/login">Log In</a></li>
-                    <li class="active"><a href="#/cardshow">{{sessionData.Session.username}}</a></li>
+
+                    <li ng-show="sessionData.Session.username" class="active"><a href="#/cardshow">{{sessionData.Session.username}}</a>
+                    </li>
                     <li><a href="" ng-click="clickMeOff()">Log Out</a></li>
-                    <li><a href="mailto:kevinbatchelor@gmail.com?Subject=Blue%20Card%20Comment" target="top">Contact</a></li>
+                    <li><a href="mailto:kevinbatchelor@gmail.com?Subject=Blue%20Card%20Comment" target="top">Contact</a>
+                    </li>
+
+                </ul>
+                <ul class="nav">
+                <li><a ng-show="sessionData.Session.createcard==1" href="#/newcard">New Card</a></li>
+                <li><a ng-show="sessionData.Session.loadcards==1" href="#/cardlist">Card List</a></li>
+                <li><a ng-show="sessionData.Session.voteforcard==1" href="#/cardshow">My Cards</a></li>
+                <li><a ng-show="sessionData.Session.createcard==1" href="#/admin">Admin</a></li>
                 </ul>
             </div>
         </div>
+
+
     </div>
-    <a ng-show="sessionData.Session.createcard==1" href="#/newcard">New Card |</a>
-    <a ng-show="sessionData.Session.loadcards==1" href="#/cardlist">Card List |</a>
-    <a ng-show="sessionData.Session.voteforcard==1" href="#/cardshow">My Cards |</a>
-    <a ng-show="sessionData.Session.createcard==1" href="#/admin">Admin</a>
 </div>
 <br>
