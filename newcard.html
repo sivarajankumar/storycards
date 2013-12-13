@@ -2,14 +2,12 @@
     <div ng-include="'toolbar.html'"></div>
     <form name="card" class="box">
         <h2 class="heading">New Card</h2>
-        <input type="text" id="name" name="name" class="input-block-level" placeholder="Feature" ng-model="cardname">
-        <textarea class="input-block-level" rows="10" id=description type="text" placeholder="Description"
-                  name="description" ng-model="carddescription"></textarea>
+        <input type="text" autofocus="name" name="name" class="input-block-level" placeholder="Feature" ng-model="cardname">
+        <textarea class="input-block-level" rows="10" id=description type="text" placeholder="Description"  name="description" ng-model="carddescription"></textarea>
         <div class="dropdown">
             <a class="dropdown-toggle">
                 Assigned Owner:
             </a>
-
             {{owner}}
             <ul class="dropdown-menu">
                 <li ng-repeat="name in users.userrights">
@@ -19,18 +17,16 @@
         </div>
         <br>
         {{sessionData.Session.username}}
-        <input type="submit" value="save" class="btn btn-primary" ng-click="clickMe()"/>
+        <button class="btn btn-primary" ng-click="clickMe()"><i class="icon-plus-sign icon-white"></i> Save Story</button>
     </form>
     <div class="box" ng-show="data.cards.name">
-    <div class="alert-success">
-
-        {{data.cards.name}} has been added.
+        <div class="alert-success">
+            {{data.cards.name}} has been added.
+        </div>
     </div>
-    </div> <div class="box" ng-show="data.error">
-    <div class="warning">
-
-        {{data.cards.error}}
+    <div class="box" ng-show="data.cards.error">
+        <div class="alert-error">
+            {{data.cards.error}}
+        </div>
     </div>
-    </div>
-
 </div>
