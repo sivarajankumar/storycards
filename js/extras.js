@@ -43,7 +43,7 @@ myApp.config(function ($routeProvider) {
             templateUrl: 'admin.html'
         }).when('/users',
         {
-            templateUrl: 'userlist.html',
+            templateUrl: 'users.html',
             controller: 'FeatureListCtrl'
         })
         .otherwise({redirectTo: '/'});
@@ -172,6 +172,31 @@ function FeatureListCtrl($scope, $http) {
     $http({method: 'POST', url: 'api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString() + '' }).success(function (data) {
         $scope.posts = data;
     })
+
+    $scope.setCreate = function(post){
+        var url ='api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString() + '&thisuser='+post.username + '&rightname=createcard'+'&value=' + post.createcard+'' ;
+
+        $http({method: 'POST', url: url }).success(function(data) {
+        })
+    };
+    $scope.setVote = function(post){
+        var url ='api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString() + '&thisuser='+post.username + '&rightname=voteforcard'+'&value=' + post.voteforcard+'' ;
+
+        $http({method: 'POST', url: url }).success(function(data) {
+        })
+    };
+    $scope.setLoad = function(post){
+        var url ='api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString() + '&thisuser='+post.username + '&rightname=loadcards'+'&value=' + post.loadcards+'' ;
+
+        $http({method: 'POST', url: url }).success(function(data) {
+        })
+    };
+    $scope.setEdit = function(post){
+        var url ='api/usermanagementlogic.php?username=' + UserString() + '&token=' + TokenString() + '&thisuser='+post.username + '&rightname=rightsedit'+'&value=' + post.rightsedit+'' ;
+
+        $http({method: 'POST', url: url }).success(function(data) {
+        })
+    };
 }
 myApp.controller('FeatureListCtrl', FeatureListCtrl);
 
