@@ -1,5 +1,5 @@
 body {
-    padding-top: 40px;
+    padding-top: 90px;
     padding-bottom: 40px;
     background-color: #f5f5f5;
 }
@@ -53,7 +53,7 @@ h3 {
 
 @page {
     size: 5in 3in;
-    margin: .5cm
+    margin: .5cm;
 }
 
 @media print {
