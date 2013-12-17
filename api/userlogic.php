@@ -71,7 +71,6 @@ function userLogin($username = null, $password = null)
         $pw=hash("sha256", $password . $salt);
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql2 = "SELECT * FROM users";
         $sql = "SELECT * FROM users WHERE username = :username AND password = :password LIMIT 1";
         $stmt = $con->prepare($sql);
         $stmt->bindValue("username", $username, PDO::PARAM_STR);
@@ -90,6 +89,7 @@ function userLogin($username = null, $password = null)
 
 function startLogin($username)
 {
+    try{
     if (checkSession($username)) {
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -111,6 +111,11 @@ function startLogin($username)
         $stmt = $con->prepare($sql);
         $stmt->bindValue("username", $username, PDO::PARAM_STR);
         $stmt->execute();
+        $session = loadSession($username);
+        echo $session->getJSON();
+    }
+    } catch(PDOException $e){
+        return $e->getMessage();
     }
 }
 
