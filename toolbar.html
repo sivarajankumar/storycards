@@ -13,7 +13,7 @@
                     <li ng-show="sessionData.Session.username" class="active"><a href="#/cardshow">{{sessionData.Session.username}}</a></li>
                     <li>    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-white"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="" ng-click="clickMeOff()"><i class="icon-arrow-right"></i> Log Out</a></li>
+                            <li><a href="" ng-show="sessionData.Session.username" ng-click="clickMeOff()"><i class="icon-arrow-right"></i> Log Out</a></li>
                             <li><a href="mailto:kevinbatchelor@gmail.com?Subject=Blue%20Card%20Comment" target="top"><i class="icon-envelope"></i> Contact</a></li>
                             <li><a ng-show="sessionData.Session.createcard==1" href="#/admin"><i class="icon-wrench"></i> Admin</a></li>
                         </ul>
