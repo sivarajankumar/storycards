@@ -46,7 +46,7 @@ function loadFeatures()
             echo "[{\"error\":\"No users.\"}]";
         }
     } catch (PDOException $e) {
-        return $e->getMessage();
+        $e->getMessage();
     }
 }
 

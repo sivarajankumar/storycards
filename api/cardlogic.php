@@ -129,6 +129,7 @@ function loadCardCreated($con)
         return $card;
     } catch (PDOException $e) {
         echo json_encode($e->getMessage());
+        return $e->getMessage();
     }
 }
 
@@ -214,6 +215,7 @@ function checkVotes($username)
         }
     } catch (PDOException $e) {
         echo json_encode($e->getMessage());
+        return $e->getMessage();
     }
 }
 
@@ -237,6 +239,7 @@ function checkUnVotes($id,$username)
         }
     } catch (PDOException $e) {
         echo json_encode($e->getMessage());
+        return $e->getMessage();
     }
 }
 
@@ -260,7 +263,7 @@ function removeUserVote($id,$username)
     try {
         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM uservotes where username = :username AND cardid =:id LIMIT 1";
+        $sql = 'DELETE FROM uservotes where username = :username AND cardid =:id LIMIT 1';
         $stmt = $con->prepare($sql);
         $stmt->bindValue("username", $username, PDO::PARAM_STR);
         $stmt->bindValue("id", $id, PDO::PARAM_INT);
