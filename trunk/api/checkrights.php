@@ -21,7 +21,7 @@ function CheckRights($username, $feature)
             return $valid;
         }
     } catch (PDOException $e) {
-        echo $e->getMessage();
+        return $e->getMessage();
     }
 }
 
@@ -38,6 +38,6 @@ function checkToken($username, $token)
         $valid = $stmt->fetchColumn();
         return $valid;
     } catch (PDOException $e) {
-        $e->getMessage();
+        return $e->getMessage();
     }
 }

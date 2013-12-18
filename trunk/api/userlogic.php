@@ -115,7 +115,7 @@ function startLogin($username)
         echo $session->getJSON();
     }
     } catch(PDOException $e){
-        return $e->getMessage();
+        $e->getMessage();
     }
 }
 

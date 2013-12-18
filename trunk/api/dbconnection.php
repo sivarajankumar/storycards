@@ -20,4 +20,3 @@ define("DB_DSN", "mysql:host=localhost;dbname=bluecard"); //this constant will b
 define("DB_USERNAME", "root"); //username of the database
 define("DB_PASSWORD", ""); //password of the database
 
-?>
